@@ -32,8 +32,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.usercentrics.sdk.PopupPosition
 import com.usercentrics.sdk.UsercentricsLayout
 import com.usercentrics.sdk.UsercentricsOptions
@@ -78,14 +80,16 @@ fun App(){
 
             // RulesetId/SettingsId input
             Column(
-                Modifier.fillMaxWidth().padding(40.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 OutlinedTextField(
                     value = ucId,
                     onValueChange = { ucId = it },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start),
-                    label = { Text("RulesetId/SettingsId") },
+                    label = { Text(stringResource(id = R.string.settings_id)) },
                     //placeholder = {Text("egLMgjg9j")},
                     modifier = Modifier.size(width = 200.dp, height = 60.dp)
                 )
@@ -97,7 +101,10 @@ fun App(){
                         checked = rulesetChecked.value,
                         onCheckedChange = { isChecked -> rulesetChecked.value = isChecked }
                     )
-                    Text("is RulesetId")
+                    Text(
+                            stringResource(id = R.string.checkbox_ruleset),
+                            fontSize = 13.sp
+                        )
                 }
             }
 
@@ -114,7 +121,7 @@ fun App(){
                 },
                 border = BorderStroke(color = Color.LightGray, width = 2.dp)
             ) {
-                Text("Initialize SDK")
+                Text(stringResource(id = R.string.btn_init))
             }
 
             // Layer Buttons
@@ -127,33 +134,33 @@ fun App(){
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Full, context)
                 }){
-                    Text("Full CMP")
+                    Text(stringResource(id = R.string.btn_full))
                 }
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Popup(PopupPosition.CENTER), context)
                 }){
-                    Text("First Layer Center")
+                    Text(stringResource(id = R.string.btn_first_center))
                 }
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Popup(PopupPosition.BOTTOM), context)
                 }){
-                    Text("First Layer Bottom")
+                    Text(stringResource(id = R.string.btn_first_bottom))
                 }
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Sheet, context)
                 }){
-                    Text("First Layer Sheet")
+                    Text(stringResource(id = R.string.btn_first_sheet))
                 }
                 Button(onClick = {
                     showSecondLayer(context)
                 }){
-                    Text("Second Layer")
+                    Text(stringResource(id = R.string.btn_second_layer))
                 }
 
                 Button(onClick = {
                     context.startActivity(Intent(context, WebviewActivity::class.java))
                 }){
-                    Text("Preview")
+                    Text(stringResource(id = R.string.btn_open_webview))
                 }
             }
         }
