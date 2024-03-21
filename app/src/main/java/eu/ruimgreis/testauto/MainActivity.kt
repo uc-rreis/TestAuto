@@ -1,6 +1,5 @@
 package eu.ruimgreis.testauto
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -33,12 +32,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.usercentrics.sdk.PopupPosition
 import com.usercentrics.sdk.UsercentricsLayout
 import com.usercentrics.sdk.UsercentricsOptions
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_first_bottom
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_first_center
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_first_sheet
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_full
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_init
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_open_webview
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_second_layer
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.checkbox_ruleset
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.settings_id
 import eu.ruimgreis.testauto.init.initCMP
 import eu.ruimgreis.testauto.layer.showCMP
 import eu.ruimgreis.testauto.layer.showSecondLayer
@@ -63,7 +73,6 @@ fun App(){
         val context = LocalContext.current
         val rulesetChecked = remember { mutableStateOf(false) }
         val keyboardController = LocalSoftwareKeyboardController.current
-        val activity = LocalContext.current as Activity
 
         Column(
             Modifier.fillMaxWidth(),
@@ -92,6 +101,9 @@ fun App(){
                     label = { Text(stringResource(id = R.string.settings_id)) },
                     //placeholder = {Text("egLMgjg9j")},
                     modifier = Modifier.size(width = 200.dp, height = 60.dp)
+                        .semantics {
+                            this.contentDescription = settings_id
+                        }
                 )
 
                 Row(
@@ -99,7 +111,10 @@ fun App(){
                 ) {
                     Checkbox(
                         checked = rulesetChecked.value,
-                        onCheckedChange = { isChecked -> rulesetChecked.value = isChecked }
+                        onCheckedChange = { isChecked -> rulesetChecked.value = isChecked },
+                        modifier = Modifier.semantics {
+                            this.contentDescription = checkbox_ruleset
+                        }
                     )
                     Text(
                             stringResource(id = R.string.checkbox_ruleset),
@@ -119,7 +134,10 @@ fun App(){
                     }
                     initCMP(context, options)
                 },
-                border = BorderStroke(color = Color.LightGray, width = 2.dp)
+                border = BorderStroke(color = Color.LightGray, width = 2.dp),
+                modifier = Modifier.semantics {
+                    this.contentDescription = btn_init
+                }
             ) {
                 Text(stringResource(id = R.string.btn_init))
             }
@@ -133,33 +151,57 @@ fun App(){
             ) {
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Full, context)
-                }){
+                },
+                    modifier = Modifier.semantics {
+                        this.contentDescription = btn_full
+                    }
+                ){
                     Text(stringResource(id = R.string.btn_full))
                 }
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Popup(PopupPosition.CENTER), context)
-                }){
+                },
+                    modifier = Modifier.semantics {
+                        this.contentDescription = btn_first_center
+                    }
+                ){
                     Text(stringResource(id = R.string.btn_first_center))
                 }
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Popup(PopupPosition.BOTTOM), context)
-                }){
+                },
+                    modifier = Modifier.semantics {
+                        this.contentDescription = btn_first_bottom
+                    }
+                ){
                     Text(stringResource(id = R.string.btn_first_bottom))
                 }
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Sheet, context)
-                }){
+                },
+                    modifier = Modifier.semantics {
+                        this.contentDescription = btn_first_sheet
+                    }
+                ){
                     Text(stringResource(id = R.string.btn_first_sheet))
                 }
                 Button(onClick = {
                     showSecondLayer(context)
-                }){
+                },
+                    modifier = Modifier.semantics {
+                        this.contentDescription = btn_second_layer
+                    }
+                ){
                     Text(stringResource(id = R.string.btn_second_layer))
                 }
 
                 Button(onClick = {
                     context.startActivity(Intent(context, WebviewActivity::class.java))
-                }){
+                },
+                    modifier = Modifier.semantics {
+                        this.contentDescription = btn_open_webview
+                    }
+                ){
                     Text(stringResource(id = R.string.btn_open_webview))
                 }
             }
