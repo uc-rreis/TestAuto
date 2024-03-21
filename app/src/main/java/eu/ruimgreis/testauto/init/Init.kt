@@ -11,6 +11,7 @@ import eu.ruimgreis.testauto.model.SDKDefaults.Companion.ERROR_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.LOG_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.SHOULD_COLLECT_CONSENT_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.tcfSettingsId
+import eu.ruimgreis.testauto.utils.applyConsents
 
 fun initCMP(appContext: Context, options: UsercentricsOptions) {
     val userOptions = getUserOptions(options.settingsId, options.ruleSetId)
@@ -30,7 +31,7 @@ fun initCMP(appContext: Context, options: UsercentricsOptions) {
 //        printTCFChanges(appContext)
         val banner = UsercentricsBanner(context = appContext)
         banner.showFirstLayer {
-
+            applyConsents(it?.consents)
         }
     },
         {

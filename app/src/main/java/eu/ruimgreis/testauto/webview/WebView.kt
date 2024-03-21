@@ -3,27 +3,44 @@ package eu.ruimgreis.testauto.webview
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.view.ViewGroup
 import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.AndroidView
 import eu.ruimgreis.testauto.utils.getSettingsId
-
-fun showWebview(activity: Activity?, appContext: Context){
-    val myWebView = WebView(appContext)
-    // customer can manipulate webview
-    activity?.setContentView(myWebView)
-    restoreSessionInWebview(getURL(), myWebView)
-}
-
-@SuppressLint("SetJavaScriptEnabled")
-private fun restoreSessionInWebview(url: String, myWebView: WebView) {
-    // Making webview debuggable
-    WebView.setWebContentsDebuggingEnabled(true);
-
-    myWebView.settings.javaScriptEnabled = true
-    myWebView.settings.domStorageEnabled = true
-    myWebView.addJavascriptInterface(JavascriptInterface(), "ucMobileSdk")
-    myWebView.loadUrl(getURL())
-}
 
 fun getURL(): String {
     return "https://app.usercentrics.eu/browser-ui/preview/index.html?settingsId=${getSettingsId()}"
+}
+
+@SuppressLint("SetJavaScriptEnabled")
+@Composable
+fun AddWebView(){
+    AndroidView(
+        modifier = Modifier.fillMaxHeight(),
+        factory = { context ->
+            WebView(context).apply {
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                settings.javaScriptEnabled = true
+                settings.domStorageEnabled = true
+                webViewClient = WebViewClient()
+
+                settings.loadWithOverviewMode = true
+                settings.useWideViewPort = true
+                settings.setSupportZoom(true)
+                settings.allowContentAccess = true
+            }.apply {
+                addJavascriptInterface(JavascriptInterface(), "ucMobileSdk")
+            }
+        },
+        update = { webView ->
+            webView.loadUrl(getURL())
+        }
+    )
 }

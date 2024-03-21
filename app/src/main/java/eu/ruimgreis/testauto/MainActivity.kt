@@ -1,6 +1,7 @@
 package eu.ruimgreis.testauto
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,10 +37,10 @@ import androidx.compose.ui.unit.dp
 import com.usercentrics.sdk.PopupPosition
 import com.usercentrics.sdk.UsercentricsLayout
 import com.usercentrics.sdk.UsercentricsOptions
-import eu.ruimgreis.testauto.webview.showWebview
 import eu.ruimgreis.testauto.init.initCMP
 import eu.ruimgreis.testauto.layer.showCMP
 import eu.ruimgreis.testauto.layer.showSecondLayer
+import eu.ruimgreis.testauto.webview.WebviewActivity
 
 class MainActivity : ComponentActivity() {
 
@@ -85,7 +86,7 @@ fun App(){
                     onValueChange = { ucId = it },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start),
                     label = { Text("RulesetId/SettingsId") },
-                    placeholder = {Text("egLMgjg9j")},
+                    //placeholder = {Text("egLMgjg9j")},
                     modifier = Modifier.size(width = 200.dp, height = 60.dp)
                 )
 
@@ -103,8 +104,9 @@ fun App(){
             // Initialization button
             OutlinedButton(
                 onClick = {
+                    val settingsId = ucId.ifEmpty { "egLMgjg9j" }
                     keyboardController?.hide()
-                    val options = UsercentricsOptions(settingsId = ucId)
+                    val options = UsercentricsOptions(settingsId)
                     if(rulesetChecked.value) {
                         options.ruleSetId = ucId
                     }
@@ -149,7 +151,7 @@ fun App(){
                 }
 
                 Button(onClick = {
-                    showWebview(activity, context)
+                    context.startActivity(Intent(context, WebviewActivity::class.java))
                 }){
                     Text("Preview")
                 }
