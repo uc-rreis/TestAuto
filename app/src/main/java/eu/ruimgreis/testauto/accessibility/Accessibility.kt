@@ -12,5 +12,6 @@ class Accessibility {
         const val btn_second_layer = "btn_second_layer"
         const val btn_open_webview = "btn_open_webview"
         const val btn_back_from_webview = "btn_back_from_webview"
+        const val btn_clear_session = "btn_clear_user_session"
     }
 }

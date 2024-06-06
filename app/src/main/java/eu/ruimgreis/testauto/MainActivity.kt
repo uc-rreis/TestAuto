@@ -1,7 +1,12 @@
 package eu.ruimgreis.testauto
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -12,7 +17,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -38,8 +45,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.usercentrics.sdk.PopupPosition
+import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.UsercentricsLayout
 import com.usercentrics.sdk.UsercentricsOptions
+import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_clear_session
 import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_first_bottom
 import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_first_center
 import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.btn_first_sheet
@@ -52,6 +61,8 @@ import eu.ruimgreis.testauto.accessibility.Accessibility.Companion.settings_id
 import eu.ruimgreis.testauto.init.initCMP
 import eu.ruimgreis.testauto.layer.showCMP
 import eu.ruimgreis.testauto.layer.showSecondLayer
+import eu.ruimgreis.testauto.model.SDKDefaults
+import eu.ruimgreis.testauto.utils.clearUserSession
 import eu.ruimgreis.testauto.webview.WebviewActivity
 
 class MainActivity : ComponentActivity() {
@@ -65,14 +76,20 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("SourceLockedOrientationActivity")
 @Composable
 @OptIn(ExperimentalComposeUiApi::class)
 fun App(){
     MaterialTheme {
         var ucId by remember { mutableStateOf("") }
-        val context = LocalContext.current
         val rulesetChecked = remember { mutableStateOf(false) }
+        var isInitialized by remember { mutableStateOf(false) }
         val keyboardController = LocalSoftwareKeyboardController.current
+
+        // fix orientation
+
+        val context = LocalContext.current
+        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         Column(
             Modifier.fillMaxWidth(),
@@ -91,7 +108,7 @@ fun App(){
             Column(
                 Modifier
                     .fillMaxWidth()
-                    .padding(40.dp),
+                    .padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 OutlinedTextField(
@@ -133,6 +150,13 @@ fun App(){
                         options.ruleSetId = ucId
                     }
                     initCMP(context, options)
+                    Usercentrics.isReady({ status ->
+                        isInitialized = true
+                    }, { error ->
+                        // Handle non-localized error
+                        Log.d(SDKDefaults.ERROR_TAG, "Failed initialization: ${error.message}")
+                    })
+
                 },
                 border = BorderStroke(color = Color.LightGray, width = 2.dp),
                 modifier = Modifier.semantics {
@@ -152,6 +176,7 @@ fun App(){
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Full, context)
                 },
+                    enabled = isInitialized,
                     modifier = Modifier.semantics {
                         this.contentDescription = btn_full
                     }
@@ -161,6 +186,8 @@ fun App(){
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Popup(PopupPosition.CENTER), context)
                 },
+
+                    enabled = isInitialized,
                     modifier = Modifier.semantics {
                         this.contentDescription = btn_first_center
                     }
@@ -170,6 +197,7 @@ fun App(){
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Popup(PopupPosition.BOTTOM), context)
                 },
+                    enabled = isInitialized,
                     modifier = Modifier.semantics {
                         this.contentDescription = btn_first_bottom
                     }
@@ -179,6 +207,7 @@ fun App(){
                 Button(onClick = {
                     showCMP(UsercentricsLayout.Sheet, context)
                 },
+                    enabled = isInitialized,
                     modifier = Modifier.semantics {
                         this.contentDescription = btn_first_sheet
                     }
@@ -188,6 +217,7 @@ fun App(){
                 Button(onClick = {
                     showSecondLayer(context)
                 },
+                    enabled = isInitialized,
                     modifier = Modifier.semantics {
                         this.contentDescription = btn_second_layer
                     }
@@ -198,13 +228,34 @@ fun App(){
                 Button(onClick = {
                     context.startActivity(Intent(context, WebviewActivity::class.java))
                 },
+                    enabled = isInitialized,
                     modifier = Modifier.semantics {
                         this.contentDescription = btn_open_webview
                     }
                 ){
                     Text(stringResource(id = R.string.btn_open_webview))
                 }
+
+                Button(onClick = {
+                    clearUserSession()
+                    Toast.makeText(context, "User session has been cleared", Toast.LENGTH_SHORT).show()
+                },
+                    enabled = isInitialized,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                    modifier = Modifier.semantics {
+                        this.contentDescription = btn_clear_session
+                    }
+                ){
+                    Text(stringResource(id = R.string.btn_clear_session))
+                }
             }
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ShowDialog() {
+    TODO("Not yet implemented")
+}
+

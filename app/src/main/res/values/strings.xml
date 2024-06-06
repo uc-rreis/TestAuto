@@ -10,4 +10,5 @@
     <string name="btn_back_from_webview">Preview</string>
     <string name="checkbox_ruleset">is RulesetId"</string>
     <string name="btn_init">"Initialize SDK"</string>
+    <string name="btn_clear_session">"Clear User Session"</string>
 </resources>
