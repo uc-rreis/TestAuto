@@ -77,29 +77,5 @@ fun printDateTime(){
 
 }
 
-fun getVariant(): UsercentricsVariant{
-    return Usercentrics.instance.getCMPData().activeVariant
-}
 
-fun getSettingsId(): String? {
-    return when(getVariant()) {
-        UsercentricsVariant.CCPA -> SDKDefaults.ccpaSettingsId
-        UsercentricsVariant.TCF -> SDKDefaults.tcfSettingsId
-        UsercentricsVariant.DEFAULT -> SDKDefaults.gdprSettingsId
-        else -> {
-            Log.d(ERROR_TAG, "Unknown UsercentricsVariant being used.")
-            return null
-        }
-    }
-}
-
-fun clearUserSession() {
-    Usercentrics.instance.clearUserSession({ status ->
-        // This callback is equivalent to isReady API
-        Log.d(LOG_TAG, "User Session Cleared")
-    }, { error ->
-        // Handle non-localized error
-        Log.d(ERROR_TAG, "User Session Clearance failed: ${error.message}")
-    })
-}
 

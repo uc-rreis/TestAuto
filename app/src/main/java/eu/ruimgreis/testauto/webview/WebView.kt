@@ -29,13 +29,11 @@ fun AddWebView(){
                 )
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
-                webViewClient = WebViewClient()
 
                 settings.loadWithOverviewMode = true
                 settings.useWideViewPort = true
                 settings.setSupportZoom(true)
                 settings.allowContentAccess = true
-            }.apply {
                 addJavascriptInterface(JavascriptInterface(), "ucMobileSdk")
             }
         },

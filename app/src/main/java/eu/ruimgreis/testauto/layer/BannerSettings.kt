@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
+import com.usercentrics.sdk.BannerFont
 import com.usercentrics.sdk.BannerSettings
 import com.usercentrics.sdk.ButtonSettings
 import com.usercentrics.sdk.ButtonType
@@ -34,7 +35,8 @@ fun getBannerSettings(context: Context, popup: UsercentricsLayout?): BannerSetti
 
 private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
     //val poppins = ResourcesCompat.getFont(context, R.font.poppins)!! // Font from internet + xml
-    //val tmr = Typeface.createFromAsset(context.assets, "times_new_roman.ttf")
+    val tmr = Typeface.createFromAsset(context.assets, "times_new_roman.ttf")
+    val lora = Typeface.createFromAsset(context.assets, "Lora.ttf")
     return GeneralStyleSettings(
         textColor = null, //Color.BLACK,
         layerBackgroundColor = null, //Color.CYAN,
@@ -50,7 +52,7 @@ private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
             inactiveThumbColor = null, //Color.RED,
             disabledThumbColor = null, //Color.YELLOW
         ),
-        font = null, //BannerFont(context, tmr, 15f),
+        font = null, //BannerFont(context, tmr, 20f),
         logo = null,
         links = null, //LegalLinksSettings.HIDDEN
         //disableSystemBackButton = true

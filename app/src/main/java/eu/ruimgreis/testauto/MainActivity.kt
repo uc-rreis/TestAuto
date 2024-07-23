@@ -63,6 +63,8 @@ import eu.ruimgreis.testauto.layer.showCMP
 import eu.ruimgreis.testauto.layer.showSecondLayer
 import eu.ruimgreis.testauto.model.SDKDefaults
 import eu.ruimgreis.testauto.utils.clearUserSession
+import eu.ruimgreis.testauto.utils.getSettingsId
+import eu.ruimgreis.testauto.utils.setSettingsId
 import eu.ruimgreis.testauto.webview.WebviewActivity
 
 class MainActivity : ComponentActivity() {
@@ -81,7 +83,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalComposeUiApi::class)
 fun App(){
     MaterialTheme {
-        var ucId by remember { mutableStateOf("") }
+        var ucId by remember { mutableStateOf(SDKDefaults.settingsId) }
         val rulesetChecked = remember { mutableStateOf(false) }
         var isInitialized by remember { mutableStateOf(false) }
         val keyboardController = LocalSoftwareKeyboardController.current
@@ -113,10 +115,9 @@ fun App(){
             ) {
                 OutlinedTextField(
                     value = ucId,
-                    onValueChange = { ucId = it },
+                    onValueChange = { ucId = it; setSettingsId(it) },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start),
                     label = { Text(stringResource(id = R.string.settings_id)) },
-                    //placeholder = {Text("egLMgjg9j")},
                     modifier = Modifier.size(width = 200.dp, height = 60.dp)
                         .semantics {
                             this.contentDescription = settings_id
@@ -143,11 +144,12 @@ fun App(){
             // Initialization button
             OutlinedButton(
                 onClick = {
-                    val settingsId = ucId.ifEmpty { "egLMgjg9j" }
                     keyboardController?.hide()
-                    val options = UsercentricsOptions(settingsId)
+                    val options = UsercentricsOptions()
                     if(rulesetChecked.value) {
                         options.ruleSetId = ucId
+                    } else {
+                        options.settingsId = getSettingsId()
                     }
                     initCMP(context, options)
                     Usercentrics.isReady({ status ->
@@ -253,9 +255,4 @@ fun App(){
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ShowDialog() {
-    TODO("Not yet implemented")
-}
 

@@ -9,9 +9,10 @@ class SDKDefaults {
 
     companion object {
         // UC SDK vals
-        const val gdprSettingsId: String = "egLMgjg9j"//"egLMgjg9j"
-        const val tcfSettingsId: String = "hKTmJ4UVL"//"hKTmJ4UVL"
-        const val ccpaSettingsId: String = "syV5G8hMG"
+//        const val gdprSettingsId: String = "egLMgjg9j"//"egLMgjg9j"
+//        const val tcfSettingsId: String = "hKTmJ4UVL"//"hKTmJ4UVL"
+//        const val ccpaSettingsId: String = "syV5G8hMG"
+        var settingsId: String = ""
         const val rulesetId: String = "" //"YxCPTs3W9"
 
         val controllerID: String? = ""
