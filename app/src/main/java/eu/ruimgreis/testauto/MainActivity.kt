@@ -4,16 +4,20 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -35,6 +39,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -70,7 +75,7 @@ import eu.ruimgreis.testauto.webview.WebviewActivity
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             App()
@@ -82,6 +87,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 @OptIn(ExperimentalComposeUiApi::class)
 fun App(){
+
     MaterialTheme {
         var ucId by remember { mutableStateOf(SDKDefaults.settingsId) }
         val rulesetChecked = remember { mutableStateOf(false) }
@@ -91,7 +97,7 @@ fun App(){
         // fix orientation
 
         val context = LocalContext.current
-        (context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        //(context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         Column(
             Modifier.fillMaxWidth(),
@@ -102,7 +108,8 @@ fun App(){
             Image(
                 painterResource(R.drawable.banner),
                 null,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .height(100.dp),
                 contentScale = ContentScale.FillWidth
             )
 
@@ -152,7 +159,7 @@ fun App(){
                         options.settingsId = getSettingsId()
                     }
                     initCMP(context, options)
-                    Usercentrics.isReady({ status ->
+                    Usercentrics.isReady({ _ ->
                         isInitialized = true
                     }, { error ->
                         // Handle non-localized error

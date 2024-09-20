@@ -56,6 +56,7 @@ private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
         logo = null,
         links = null, //LegalLinksSettings.HIDDEN
         //disableSystemBackButton = true
+        windowFullscreen = true
     )
 }
 

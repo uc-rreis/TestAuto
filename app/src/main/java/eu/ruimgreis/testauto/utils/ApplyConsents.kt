@@ -4,6 +4,7 @@ import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.UsercentricsServiceConsent
 import com.usercentrics.sdk.models.common.UsercentricsVariant
 import eu.ruimgreis.testauto.logs.printCCPAData
+import eu.ruimgreis.testauto.logs.printCMPData
 import eu.ruimgreis.testauto.logs.printGDPRData
 import eu.ruimgreis.testauto.logs.printTCFData
 
@@ -24,6 +25,7 @@ fun applyConsents(consents: List<UsercentricsServiceConsent>?) {
 fun getCMPData(consents: List<UsercentricsServiceConsent>?) {
     Usercentrics.isReady({
         // CMP Data
+        printCMPData()
         printGDPRData(consents)
 
         if(Usercentrics.instance.getCMPData().activeVariant == UsercentricsVariant.TCF) {

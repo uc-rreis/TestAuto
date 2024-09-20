@@ -7,6 +7,8 @@ import com.usercentrics.sdk.Usercentrics.instance
 import com.usercentrics.sdk.UsercentricsBanner
 import com.usercentrics.sdk.UsercentricsOptions
 import com.usercentrics.sdk.models.common.UsercentricsLoggerLevel
+import eu.ruimgreis.testauto.logs.printCMPData
+import eu.ruimgreis.testauto.model.SDKDefaults.Companion.CMP_DATA_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.ERROR_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.LOG_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.SHOULD_COLLECT_CONSENT_TAG
@@ -22,10 +24,11 @@ fun initCMP(appContext: Context, options: UsercentricsOptions) {
     Usercentrics.isReady({ status ->
         Log.w(SHOULD_COLLECT_CONSENT_TAG, "Should collect consent: ${status.shouldCollectConsent}")
 
-        val userLocation = Usercentrics.instance.getCMPData().userLocation.countryCode
-        val settingsId = Usercentrics.instance.getCMPData().settings.settingsId
+        val userLocation = instance.getCMPData().userLocation.countryCode
+        val settingsId = instance.getCMPData().settings.settingsId
         Log.d(LOG_TAG, "User Location: $userLocation")
         Log.d(LOG_TAG, "SettingsId: $settingsId")
+        printCMPData()
 
         //getPublishedApps()
 
@@ -69,7 +72,7 @@ private fun getUserOptions(settingsId: String, rulesetId: String): UsercentricsO
         userOptions = UsercentricsOptions(
             settingsId = settingsId,
             defaultLanguage = "en",
-            version = "latest",
+            version = "preview",
             loggerLevel = UsercentricsLoggerLevel.DEBUG,
             consentMediation = false,
         )
