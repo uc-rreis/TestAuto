@@ -11,6 +11,8 @@ fun printCMPData() {
 //    for(service in services) {
 //        Log.d(CMP_DATA_TAG, "SERVICE:  ${service.dataProcessor} -- LEGAL BASIS: ${service.legalBasisList}")
 //    }
+//    val buttonColors = data.settings.customization?.color
+//    Log.d("COLORS",  buttonColors.toString())
 
     data.services.forEach { service ->
         service.legalBasisList.forEach { legalBasis ->

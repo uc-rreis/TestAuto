@@ -1,5 +1,6 @@
 package eu.ruimgreis.testauto.init
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.usercentrics.sdk.Usercentrics
@@ -7,6 +8,7 @@ import com.usercentrics.sdk.Usercentrics.instance
 import com.usercentrics.sdk.UsercentricsBanner
 import com.usercentrics.sdk.UsercentricsOptions
 import com.usercentrics.sdk.models.common.UsercentricsLoggerLevel
+import eu.ruimgreis.testauto.layer.getBannerSettings
 import eu.ruimgreis.testauto.logs.printCMPData
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.CMP_DATA_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.ERROR_TAG
@@ -15,6 +17,7 @@ import eu.ruimgreis.testauto.model.SDKDefaults.Companion.SHOULD_COLLECT_CONSENT_
 import eu.ruimgreis.testauto.utils.applyConsents
 
 
+@SuppressLint("LongLogTag")
 fun initCMP(appContext: Context, options: UsercentricsOptions) {
     val userOptions = getUserOptions(options.settingsId, options.ruleSetId)
 
@@ -36,7 +39,7 @@ fun initCMP(appContext: Context, options: UsercentricsOptions) {
 //            restoreSession()
 //        }
 //        printTCFChanges(appContext)
-        val banner = UsercentricsBanner(context = appContext)
+        val banner = UsercentricsBanner(context = appContext, getBannerSettings(appContext, null))
         banner.showFirstLayer {
             applyConsents(it?.consents)
         }
@@ -68,10 +71,10 @@ private fun getUserOptions(settingsId: String, rulesetId: String): UsercentricsO
         //userOptions.networkMode = NetworkMode.EU
         Log.d(LOG_TAG, "RuletSetId: $rulesetId")
 
-    } else if(!settingsId.isNullOrEmpty()) {
+    } else if(settingsId.isNotEmpty()) {
         userOptions = UsercentricsOptions(
             settingsId = settingsId,
-            defaultLanguage = "en",
+            //defaultLanguage = "ar",
             version = "preview",
             loggerLevel = UsercentricsLoggerLevel.DEBUG,
             consentMediation = false,

@@ -6,15 +6,18 @@ import android.graphics.Typeface
 import android.util.Log
 import com.usercentrics.sdk.BannerFont
 import com.usercentrics.sdk.BannerSettings
+import com.usercentrics.sdk.ButtonLayout
 import com.usercentrics.sdk.ButtonSettings
 import com.usercentrics.sdk.ButtonType
 import com.usercentrics.sdk.FirstLayerStyleSettings
 import com.usercentrics.sdk.GeneralStyleSettings
 import com.usercentrics.sdk.SecondLayerStyleSettings
 import com.usercentrics.sdk.ToggleStyleSettings
+import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.UsercentricsLayout
 import com.usercentrics.sdk.firstLayerDescription
 import com.usercentrics.sdk.v2.settings.data.UsercentricsSettings
+import eu.ruimgreis.testauto.model.SDKDefaults
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.BANNER_SETTINGS_TAG
 
 fun getBannerSettings(context: Context, popup: UsercentricsLayout?): BannerSettings {
@@ -30,7 +33,7 @@ fun getBannerSettings(context: Context, popup: UsercentricsLayout?): BannerSetti
         secondLayerStyleSettings = secondLayerSettings
     )
 
-    return bannerSettings
+    return  bannerSettings  //
 }
 
 private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
@@ -55,8 +58,9 @@ private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
         font = null, //BannerFont(context, tmr, 20f),
         logo = null,
         links = null, //LegalLinksSettings.HIDDEN
-        //disableSystemBackButton = true
-        windowFullscreen = true
+        disableSystemBackButton = false,
+        statusBarColor = Color.RED,
+        windowFullscreen = false
     )
 }
 
@@ -94,7 +98,7 @@ private fun setFirstLayerStyleSettings(popup: UsercentricsLayout?): FirstLayerSt
         title = null,
         message = null,
         backgroundColor = null,
-        buttonLayout = null, //ButtonLayout.Column(buttons),
+        buttonLayout = null, //ButtonLayout.Row(buttons), //ButtonLayout.Column(buttons),
         overlayColor = null,
         cornerRadius = null,
     )
@@ -113,20 +117,21 @@ private fun setSecondLayerStyleSettings(): SecondLayerStyleSettings {
     )
 }
 
-//private fun abTesting(context: Context){
-//    val variant = Usercentrics.instance.getABTestingVariant()
-//    Log.d(SDKDefaults.VARIANT_TAG, "$variant")
-//    val bannerSettings = when (variant) {
-//        "variant0" -> BannerSettings()
-//        else -> BannerSettings(
-//            //font = <UsercentricsFont?>,
-//            //logo = <UsercentricsImage?>
-//            generalStyleSettings = setGeneralStyleSettings(context),
-//            firstLayerStyleSettings = setFirstLayerStyleSettings(),
-//            secondLayerStyleSettings = setSecondLayerStyleSettings()
-//        )
-//    }
-//}
+private fun abTesting(context: Context): BannerSettings {
+    val variant = Usercentrics.instance.getABTestingVariant()
+    Log.d(SDKDefaults.VARIANT_TAG, "$variant")
+    val bannerSettings = when (variant) {
+        "variantA" -> BannerSettings()
+        else -> BannerSettings(
+            //font = <UsercentricsFont?>,
+            //logo = <UsercentricsImage?>
+            generalStyleSettings = setGeneralStyleSettings(context),
+            firstLayerStyleSettings = setFirstLayerStyleSettings(UsercentricsLayout.Full),
+            secondLayerStyleSettings = setSecondLayerStyleSettings()
+        )
+    }
+    return bannerSettings
+}
 
 fun printBannerMessages(settings: UsercentricsSettings) {
     Log.d(BANNER_SETTINGS_TAG,"-- BANNER MESSAGE SPANNED -- ")

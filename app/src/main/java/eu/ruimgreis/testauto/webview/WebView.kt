@@ -14,6 +14,8 @@ import eu.ruimgreis.testauto.utils.getSettingsId
 
 fun getURL(): String {
     return "https://app.usercentrics.eu/browser-ui/preview/index.html?settingsId=${getSettingsId()}"
+    //return "https://web.cmp.usercentrics-sandbox.eu/ui/pr/602/index.html?settingsId=IjaOij_6w&cmpVersion=3&settingsType=gdpr"
+    //return "https://web.cmp.usercentrics-sandbox.eu/ui/pr/602/index.html?settingsId=A5kxyiGIlRnPdd"
 }
 
 @SuppressLint("SetJavaScriptEnabled")
