@@ -7,6 +7,7 @@ import eu.ruimgreis.testauto.model.SDKDefaults.Companion.CMP_DATA_TAG
 
 fun printCMPData() {
     val data = Usercentrics.instance.getCMPData()
+
 //    val services = data.services
 //    for(service in services) {
 //        Log.d(CMP_DATA_TAG, "SERVICE:  ${service.dataProcessor} -- LEGAL BASIS: ${service.legalBasisList}")
@@ -14,11 +15,11 @@ fun printCMPData() {
 //    val buttonColors = data.settings.customization?.color
 //    Log.d("COLORS",  buttonColors.toString())
 
-    data.services.forEach { service ->
-        service.legalBasisList.forEach { legalBasis ->
-            Log.d("UserCentricsUseCase", "${service.dataProcessor} - Legal Basis: $legalBasis - ${data.settings.labels.legalBasisInfo}")
-        }
-    }
+//    data.services.forEach { service ->
+//        service.legalBasisList.forEach { legalBasis ->
+//            Log.d("UserCentricsUseCase", "${service.dataProcessor} - Legal Basis: $legalBasis - ${data.settings.labels.legalBasisInfo}")
+//        }
+//    }
     //Log.d(CMP_DATA_TAG, "PUBLISHED APPS: ${data.settings.publishedApps}")
     //var location = data.userLocation
 }

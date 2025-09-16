@@ -16,7 +16,11 @@ import eu.ruimgreis.testauto.utils.getSettingsId
 
 fun printTCFData() {
 
-    val isACMV2Enabled = Usercentrics.instance.getCMPData().settings.tcf2?.acmV2Enabled ?: false
+    val data = Usercentrics.instance.getCMPData()
+    val isACMV2Enabled = data.settings.tcf2?.acmV2Enabled ?: false
+    val firstLayerDescription = data.settings.tcf2?.firstLayerDescription
+    val services = data.services.size
+    Log.d("FIRST_LAYER_DESCRIPTION", firstLayerDescription.toString())
 
     println("Calling getTCFData")
     Usercentrics.instance.getTCFData { tcfData: TCFData ->
@@ -34,6 +38,10 @@ fun printTCFData() {
             vendorsList = vendorsList.sortedBy { tcfVendor -> tcfVendor.id }
             var vendorsListLI = vendors.filter { tcfVendor -> tcfVendor.legitimateInterestConsent == true }
             vendorsListLI = vendorsListLI.sortedBy { tcfVendor -> tcfVendor.id }
+
+            var totalVendors = services + vendors.size
+
+            Log.d("VENDOR_COUNT", totalVendors.toString())
 
             printPurposes(purposesList)
             printNumberVendors(vendors)

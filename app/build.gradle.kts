@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -8,9 +10,17 @@ android {
     namespace = "eu.ruimgreis.testauto"
     compileSdk = 35
 
+    // This is where you add the buildFeatures block
+    buildFeatures {
+        buildConfig = true
+    }
+
+    val schemeName: String = project.property("schemeName").toString()
+    val hostName: String =  project.property("hostName").toString()
+
     defaultConfig {
         applicationId = "eu.ruimgreis.testauto"
-        minSdk = 22
+        minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -19,6 +29,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Configs for deepLinks setup
+        manifestPlaceholders["hostName"] = hostName
+        manifestPlaceholders["schemeName"] = schemeName
+        buildConfigField("String", "schemeName", "\"$schemeName\"")
+        buildConfigField("String", "hostName", "\"$hostName\"")
     }
 
     buildTypes {
@@ -29,14 +45,18 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("debug")
+
+            isShrinkResources = true
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
     buildFeatures {
         compose = true
@@ -62,7 +82,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.usercentrics.ui)
-    //implementation(libs.sharp)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)

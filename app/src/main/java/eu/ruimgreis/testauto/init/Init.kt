@@ -6,10 +6,12 @@ import android.util.Log
 import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.Usercentrics.instance
 import com.usercentrics.sdk.UsercentricsBanner
+import com.usercentrics.sdk.UsercentricsCMPData
 import com.usercentrics.sdk.UsercentricsOptions
 import com.usercentrics.sdk.models.common.UsercentricsLoggerLevel
 import eu.ruimgreis.testauto.layer.getBannerSettings
 import eu.ruimgreis.testauto.logs.printCMPData
+import eu.ruimgreis.testauto.model.SDKDefaults
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.CMP_DATA_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.ERROR_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.LOG_TAG
@@ -25,15 +27,25 @@ fun initCMP(appContext: Context, options: UsercentricsOptions) {
 
     Usercentrics.initialize(appContext, userOptions)
     Usercentrics.isReady({ status ->
-        Log.w(SHOULD_COLLECT_CONSENT_TAG, "Should collect consent: ${status.shouldCollectConsent}")
 
-        val userLocation = instance.getCMPData().userLocation.countryCode
+        val cmpData = Usercentrics.instance.getCMPData()
+        val variant = cmpData.settings.tcf2?.firstLayerMobileVariant
+        Log.w("VARIANT", "VARIANT: $variant")
+
+        Log.w(SHOULD_COLLECT_CONSENT_TAG, "Should collect consent: ${status.shouldCollectConsent}")
+        if (SDKDefaults.rulesetId.isNotEmpty()) {
+            Log.d(
+                "GEOLOCATION RULESET", "Ruleset: - ${SDKDefaults.rulesetId} - " +
+                        "bannerRequiredAtLocation - ${status.geolocationRuleset?.bannerRequiredAtLocation}"
+            )
+        }
+        val userLocation = instance.getCMPData().userLocation.countryCode  //GHSHdkbjiDWDgO //nBeBGSWqimByqm
         val settingsId = instance.getCMPData().settings.settingsId
         Log.d(LOG_TAG, "User Location: $userLocation")
         Log.d(LOG_TAG, "SettingsId: $settingsId")
         printCMPData()
 
-        //getPublishedApps()
+        //getPublishedApps() L536P9y4lxoDAT
 
 //        if(!SDKDefaults.controllerID.isNullOrEmpty()){
 //            restoreSession()
@@ -63,7 +75,7 @@ private fun getUserOptions(settingsId: String, rulesetId: String): UsercentricsO
     {
         userOptions = UsercentricsOptions(
             ruleSetId = rulesetId,
-            defaultLanguage = "en",
+            //defaultLanguage = "it",
             version = "latest",
             loggerLevel = UsercentricsLoggerLevel.DEBUG,
             consentMediation = false
@@ -74,8 +86,8 @@ private fun getUserOptions(settingsId: String, rulesetId: String): UsercentricsO
     } else if(settingsId.isNotEmpty()) {
         userOptions = UsercentricsOptions(
             settingsId = settingsId,
-            //defaultLanguage = "ar",
-            version = "preview",
+            defaultLanguage = "de",
+            version = "latest",
             loggerLevel = UsercentricsLoggerLevel.DEBUG,
             consentMediation = false,
         )

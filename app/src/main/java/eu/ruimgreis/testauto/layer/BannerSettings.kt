@@ -2,6 +2,7 @@ package eu.ruimgreis.testauto.layer
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Color.parseColor
 import android.graphics.Typeface
 import android.util.Log
 import com.usercentrics.sdk.BannerFont
@@ -19,6 +20,9 @@ import com.usercentrics.sdk.firstLayerDescription
 import com.usercentrics.sdk.v2.settings.data.UsercentricsSettings
 import eu.ruimgreis.testauto.model.SDKDefaults
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.BANNER_SETTINGS_TAG
+import androidx.core.graphics.toColorInt
+import com.usercentrics.sdk.MessageSettings
+import com.usercentrics.sdk.TitleSettings
 
 fun getBannerSettings(context: Context, popup: UsercentricsLayout?): BannerSettings {
     val firstLayerSettings = setFirstLayerStyleSettings(popup)
@@ -39,28 +43,29 @@ fun getBannerSettings(context: Context, popup: UsercentricsLayout?): BannerSetti
 private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
     //val poppins = ResourcesCompat.getFont(context, R.font.poppins)!! // Font from internet + xml
     val tmr = Typeface.createFromAsset(context.assets, "times_new_roman.ttf")
+    val chalkboard = Typeface.createFromAsset(context.assets, "Chalkboard-Regular.ttf")
     val lora = Typeface.createFromAsset(context.assets, "Lora.ttf")
     return GeneralStyleSettings(
-        textColor = null, //Color.BLACK,
-        layerBackgroundColor = null, //Color.CYAN,
-        layerBackgroundSecondaryColor = null, //Color.RED,
-        linkColor = null, //Color.BLUE,
-        tabColor = null, //Color.MAGENTA,
-        bordersColor = null, //Color.GREEN,
+        textColor = null, //Color.parseColor("#F4FFF2F4"), //"#FF9DCB9A".toColorInt(), //Color.BLACK,
+        layerBackgroundColor = null, //Color.parseColor("#9AFF9DCB"), //.toColorInt(), //Color.CYAN,
+        layerBackgroundSecondaryColor = null, //"#9AFF9DCB".toColorInt(), //Color.RED,
+        linkColor = null, //"#9AFF9DCB".toColorInt(), //Color.BLUE,
+        tabColor = null, //"#9AFF9DCB".toColorInt(), //Color.MAGENTA,
+        bordersColor = null, //"#45FF3740".toColorInt(), //Color.GREEN,
         toggleStyleSettings = ToggleStyleSettings(
-            activeBackgroundColor = null, //Color.LTGRAY,
+            activeBackgroundColor = null, //"#12FF1212".toColorInt(), //Color.LTGRAY,
             inactiveBackgroundColor = null, //Color.DKGRAY,
             disabledBackgroundColor = null, //Color.MAGENTA,
             activeThumbColor = null, //Color.GREEN,
             inactiveThumbColor = null, //Color.RED,
             disabledThumbColor = null, //Color.YELLOW
         ),
-        font = null, //BannerFont(context, tmr, 20f),
+        font = null, //BannerFont(context, chalkboard, 20f),
         logo = null,
         links = null, //LegalLinksSettings.HIDDEN
         disableSystemBackButton = false,
-        statusBarColor = Color.RED,
-        windowFullscreen = false
+        statusBarColor = null, //Color.RED,
+        windowFullscreen = null, //true
     )
 }
 
@@ -95,8 +100,8 @@ private fun setFirstLayerStyleSettings(popup: UsercentricsLayout?): FirstLayerSt
     return FirstLayerStyleSettings(
         layout = popup,
         headerImage = null, //bannerImage,
-        title = null,
-        message = null,
+        title = null, //TitleSettings(textColor = "#008bff".toColorInt()),
+        message = null, //MessageSettings(textColor = "#00ff5a".toColorInt(), linkTextColor = Color.RED),
         backgroundColor = null,
         buttonLayout = null, //ButtonLayout.Row(buttons), //ButtonLayout.Column(buttons),
         overlayColor = null,
@@ -140,7 +145,7 @@ fun printBannerMessages(settings: UsercentricsSettings) {
 
     Log.d(BANNER_SETTINGS_TAG,"-- CLEANED BANNER MESSAGE SPANNED -- ")
     val messageClean = settings.firstLayerDescription.replace("[\n]+".toRegex(), "\n")
-    Log.d(BANNER_SETTINGS_TAG, "$messageClean")
+    Log.d(BANNER_SETTINGS_TAG, messageClean)
 
     Log.d(BANNER_SETTINGS_TAG,"-- BANNER MESSAGE HTML-- ")
     Log.d(BANNER_SETTINGS_TAG, "${settings.firstLayerDescriptionHtml}")

@@ -4,11 +4,11 @@ class SDKDefaults {
 
     /**
      * Default values for properties in SDK
-     * example settingsId = "egLMgjg9j"
+     * example settingsId = "egLMgjg9j", " hKTmJ4UVL", lzZwy3VAp,
      */
 
     companion object {
-        var settingsId: String = "egLMgjg9j"
+        var settingsId: String = "hKTmJ4UVL"
         const val rulesetId: String = ""
 
         val controllerID: String? = ""

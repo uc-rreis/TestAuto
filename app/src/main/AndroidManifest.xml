@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TestAuto"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".webview.WebviewActivity"
@@ -23,6 +24,19 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".links.DeepLinkActivity"
+            android:exported="true">
+
+            <intent-filter android:label="deep_link">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="${hostName}"
+                    android:scheme="${schemeName}" />
             </intent-filter>
         </activity>
     </application>

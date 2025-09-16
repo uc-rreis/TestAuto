@@ -33,3 +33,7 @@ fun clearUserSession() {
         Log.d(ERROR_TAG, "User Session Clearance failed: ${error.message}")
     })
 }
+
+fun catchLinks(){
+
+}

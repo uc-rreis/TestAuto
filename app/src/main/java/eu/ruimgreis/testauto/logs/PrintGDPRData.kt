@@ -17,6 +17,8 @@ fun printGDPRData(
 
 private fun printDPSExplicitConsents() {
     val consents = Usercentrics.instance.getConsents()
+//    val ucConsent = consents.first {it.templateId == "H1Vl5NidjWX"}
+//    println("OPPO CONSENT VALUE: ${ucConsent.templateId} - ${ucConsent.status}")
 
     if (consents.isEmpty()) {
         Log.d(CONSENT_TAG,"No explicit consents given by user yet!");

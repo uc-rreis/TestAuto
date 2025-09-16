@@ -1,21 +1,22 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Keep everything inside Usercentrics SDK
+-keep class com.usercentrics.** { *; }
+-dontwarn com.usercentrics.**
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Keep annotations and signatures (reflection based frameworks need these)
+-keepattributes *Annotation*, InnerClasses, EnclosingMethod, Signature
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Keep all interfaces and callbacks (sometimes they’re stripped separately)
+-keep interface com.usercentrics.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Keep all public methods (protects API entrypoints)
+-keepclassmembers class com.usercentrics.** {
+    public *;
+}
+
+# OkHttp
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *; }
+
+# Gson (if used internally)
+-keep class com.google.gson.** { *; }
+-dontwarn com.google.gson.**
