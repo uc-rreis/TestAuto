@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "eu.ruimgreis.testauto"
-    compileSdk = 35
+    compileSdk = 36
 
     // This is where you add the buildFeatures block
     buildFeatures {
@@ -21,7 +21,7 @@ android {
     defaultConfig {
         applicationId = "eu.ruimgreis.testauto"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

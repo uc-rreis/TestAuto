@@ -11,6 +11,7 @@ import eu.ruimgreis.testauto.BuildConfig
 class DeepLinkActivity: AppCompatActivity() {
 
     // to be tested on settingsId hKTmJ4UVL with language "de" in UsercentricsOptions
+    // the properties schemeName and hostName are set in gradle.properties
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("CUSTOM_LINKS", "Deep Link Activity created")
