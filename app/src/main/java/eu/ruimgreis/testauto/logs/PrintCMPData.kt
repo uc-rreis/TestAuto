@@ -6,7 +6,8 @@ import com.usercentrics.sdk.UsercentricsConsentUserResponse
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.CMP_DATA_TAG
 
 fun printCMPData() {
-    val data = Usercentrics.instance.getCMPData()
+    val data = Usercentrics.instance.getCMPData().categories.forEach { category -> Log.d("CATEGORIES", category.label) }
+
 
 //    val services = data.services
 //    for(service in services) {

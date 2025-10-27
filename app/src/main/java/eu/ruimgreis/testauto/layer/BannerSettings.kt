@@ -37,34 +37,34 @@ fun getBannerSettings(context: Context, popup: UsercentricsLayout?): BannerSetti
         secondLayerStyleSettings = secondLayerSettings
     )
 
-    return  bannerSettings  //
+    return  BannerSettings() //bannerSettings
 }
 
 private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
     //val poppins = ResourcesCompat.getFont(context, R.font.poppins)!! // Font from internet + xml
-    val tmr = Typeface.createFromAsset(context.assets, "times_new_roman.ttf")
+    //val tmr = Typeface.createFromAsset(context.assets, "times_new_roman.ttf")
     val chalkboard = Typeface.createFromAsset(context.assets, "Chalkboard-Regular.ttf")
-    val lora = Typeface.createFromAsset(context.assets, "Lora.ttf")
+    //val lora = Typeface.createFromAsset(context.assets, "Lora.ttf")
     return GeneralStyleSettings(
-        textColor = null, //Color.parseColor("#F4FFF2F4"), //"#FF9DCB9A".toColorInt(), //Color.BLACK,
-        layerBackgroundColor = null, //Color.parseColor("#9AFF9DCB"), //.toColorInt(), //Color.CYAN,
-        layerBackgroundSecondaryColor = null, //"#9AFF9DCB".toColorInt(), //Color.RED,
-        linkColor = null, //"#9AFF9DCB".toColorInt(), //Color.BLUE,
-        tabColor = null, //"#9AFF9DCB".toColorInt(), //Color.MAGENTA,
-        bordersColor = null, //"#45FF3740".toColorInt(), //Color.GREEN,
+        textColor = "#FF9DCB9A".toColorInt(), //Color.BLACK,
+        layerBackgroundColor = "#9AFF9DCB".toColorInt(), //Color.CYAN,
+        layerBackgroundSecondaryColor = "#9AFF9DCB".toColorInt(), //Color.RED,
+        linkColor = "#9AFF9DCB".toColorInt(), //Color.BLUE,
+        tabColor = "#9AFF9DCB".toColorInt(), //Color.MAGENTA,
+        bordersColor = "#45FF3740".toColorInt(), //Color.GREEN,
         toggleStyleSettings = ToggleStyleSettings(
-            activeBackgroundColor = null, //"#12FF1212".toColorInt(), //Color.LTGRAY,
-            inactiveBackgroundColor = null, //Color.DKGRAY,
-            disabledBackgroundColor = null, //Color.MAGENTA,
-            activeThumbColor = null, //Color.GREEN,
-            inactiveThumbColor = null, //Color.RED,
-            disabledThumbColor = null, //Color.YELLOW
+            activeBackgroundColor = "#12FF1212".toColorInt(), //Color.LTGRAY,
+            inactiveBackgroundColor = Color.DKGRAY,
+            disabledBackgroundColor = Color.MAGENTA,
+            activeThumbColor = Color.GREEN,
+            inactiveThumbColor = Color.RED,
+            disabledThumbColor = Color.YELLOW
         ),
-        font = null, //BannerFont(context, chalkboard, 20f),
+        font = BannerFont(context, chalkboard, 20f),
         logo = null,
         links = null, //LegalLinksSettings.HIDDEN
         disableSystemBackButton = false,
-        statusBarColor = null, //Color.RED,
+        statusBarColor = Color.RED,
         windowFullscreen = null, //true
     )
 }
@@ -100,10 +100,10 @@ private fun setFirstLayerStyleSettings(popup: UsercentricsLayout?): FirstLayerSt
     return FirstLayerStyleSettings(
         layout = popup,
         headerImage = null, //bannerImage,
-        title = null, //TitleSettings(textColor = "#008bff".toColorInt()),
-        message = null, //MessageSettings(textColor = "#00ff5a".toColorInt(), linkTextColor = Color.RED),
+        title = TitleSettings(textColor = "#008bff".toColorInt()),
+        message = MessageSettings(textColor = "#00ff5a".toColorInt(), linkTextColor = Color.RED),
         backgroundColor = null,
-        buttonLayout = null, //ButtonLayout.Row(buttons), //ButtonLayout.Column(buttons),
+        buttonLayout = ButtonLayout.Row(buttons), //ButtonLayout.Column(buttons),
         overlayColor = null,
         cornerRadius = null,
     )

@@ -28,7 +28,7 @@ fun initCMP(appContext: Context, options: UsercentricsOptions) {
     Usercentrics.initialize(appContext, userOptions)
     Usercentrics.isReady({ status ->
 
-        val cmpData = Usercentrics.instance.getCMPData()
+        val cmpData = instance.getCMPData()
         val variant = cmpData.settings.tcf2?.firstLayerMobileVariant
         Log.w("VARIANT", "VARIANT: $variant")
 
@@ -39,8 +39,8 @@ fun initCMP(appContext: Context, options: UsercentricsOptions) {
                         "bannerRequiredAtLocation - ${status.geolocationRuleset?.bannerRequiredAtLocation}"
             )
         }
-        val userLocation = instance.getCMPData().userLocation.countryCode  //GHSHdkbjiDWDgO //nBeBGSWqimByqm
-        val settingsId = instance.getCMPData().settings.settingsId
+        val userLocation = cmpData.userLocation.countryCode
+        val settingsId = cmpData.settings.settingsId
         Log.d(LOG_TAG, "User Location: $userLocation")
         Log.d(LOG_TAG, "SettingsId: $settingsId")
         printCMPData()
@@ -86,7 +86,7 @@ private fun getUserOptions(settingsId: String, rulesetId: String): UsercentricsO
     } else if(settingsId.isNotEmpty()) {
         userOptions = UsercentricsOptions(
             settingsId = settingsId,
-            defaultLanguage = "de",
+            //defaultLanguage = "de",
             version = "latest",
             loggerLevel = UsercentricsLoggerLevel.DEBUG,
             consentMediation = false,
