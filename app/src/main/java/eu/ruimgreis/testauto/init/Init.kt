@@ -6,13 +6,11 @@ import android.util.Log
 import com.usercentrics.sdk.Usercentrics
 import com.usercentrics.sdk.Usercentrics.instance
 import com.usercentrics.sdk.UsercentricsBanner
-import com.usercentrics.sdk.UsercentricsCMPData
 import com.usercentrics.sdk.UsercentricsOptions
 import com.usercentrics.sdk.models.common.UsercentricsLoggerLevel
 import eu.ruimgreis.testauto.layer.getBannerSettings
 import eu.ruimgreis.testauto.logs.printCMPData
 import eu.ruimgreis.testauto.model.SDKDefaults
-import eu.ruimgreis.testauto.model.SDKDefaults.Companion.CMP_DATA_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.ERROR_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.LOG_TAG
 import eu.ruimgreis.testauto.model.SDKDefaults.Companion.SHOULD_COLLECT_CONSENT_TAG

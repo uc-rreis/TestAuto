@@ -1,11 +1,13 @@
 package eu.ruimgreis.testauto.model
 
+
 class SDKDefaults {
 
     /**
      * Default values for properties in SDK
      * example settingsId = "egLMgjg9j", " hKTmJ4UVL", lzZwy3VAp,
      */
+
 
     companion object {
         var settingsId: String = "hKTmJ4UVL"

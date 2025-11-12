@@ -37,7 +37,7 @@ fun getBannerSettings(context: Context, popup: UsercentricsLayout?): BannerSetti
         secondLayerStyleSettings = secondLayerSettings
     )
 
-    return  BannerSettings() //bannerSettings
+    return  bannerSettings
 }
 
 private fun setGeneralStyleSettings(context: Context): GeneralStyleSettings {
@@ -103,7 +103,7 @@ private fun setFirstLayerStyleSettings(popup: UsercentricsLayout?): FirstLayerSt
         title = TitleSettings(textColor = "#008bff".toColorInt()),
         message = MessageSettings(textColor = "#00ff5a".toColorInt(), linkTextColor = Color.RED),
         backgroundColor = null,
-        buttonLayout = ButtonLayout.Row(buttons), //ButtonLayout.Column(buttons),
+        buttonLayout = ButtonLayout.Column(buttons), //ButtonLayout.Column(buttons),
         overlayColor = null,
         cornerRadius = null,
     )
